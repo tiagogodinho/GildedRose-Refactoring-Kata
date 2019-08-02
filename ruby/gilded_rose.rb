@@ -10,19 +10,24 @@ class GildedRose
     when 'Aged Brie'
       Brie
     when 'Sulfuras, Hand of Ragnaros'
-      Sulfuras
+      Item
     when 'Backstage passes to a TAFKAL80ETC concert'
       Backstage
     end
   end
 
-  class Normal
+  class Item
     attr_reader :days_remaining, :quality
     def initialize(days_remaining, quality)
       @days_remaining = days_remaining
       @quality = quality
     end
 
+    def tick
+    end
+  end
+
+  class Normal < Item
     def tick
       @days_remaining -= 1
       return if @quality == 0
@@ -32,13 +37,7 @@ class GildedRose
     end
   end
 
-  class Brie
-    attr_reader :days_remaining, :quality
-    def initialize(days_remaining, quality)
-      @days_remaining = days_remaining
-      @quality = quality
-    end
-
+  class Brie < Item
     def tick
       @days_remaining -= 1
       return if @quality >= 50
@@ -50,24 +49,7 @@ class GildedRose
     end
   end
 
-  class Sulfuras
-    attr_reader :days_remaining, :quality
-    def initialize(days_remaining, quality)
-      @days_remaining = days_remaining
-      @quality = quality
-    end
-
-    def tick
-    end
-  end
-
-  class Backstage
-    attr_reader :days_remaining, :quality
-    def initialize(days_remaining, quality)
-      @days_remaining = days_remaining
-      @quality = quality
-    end
-
+  class Backstage < Item
     def tick
       @days_remaining -= 1
       return if @quality >= 50
