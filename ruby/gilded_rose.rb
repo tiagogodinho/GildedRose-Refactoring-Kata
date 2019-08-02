@@ -1,21 +1,4 @@
 class GildedRose
-  def self.for(name:, days_remaining:, quality:)
-    klass_for(name).new(days_remaining, quality)
-  end
-
-  def self.klass_for(name)
-    case name
-    when 'Normal Item'
-      Normal
-    when 'Aged Brie'
-      Brie
-    when 'Sulfuras, Hand of Ragnaros'
-      Item
-    when 'Backstage passes to a TAFKAL80ETC concert'
-      Backstage
-    end
-  end
-
   class Item
     attr_reader :days_remaining, :quality
     def initialize(days_remaining, quality)
@@ -58,6 +41,30 @@ class GildedRose
       @quality += 1
       @quality += 1 if @days_remaining < 10
       @quality += 1 if @days_remaining < 5
+    end
+  end
+
+  DEFAULT_CLASS = Item
+  SPECIALIZED_CLASSES = {
+    'Normal Item' => Normal,
+    'Aged Brie' => Brie,
+    'Backstage passes to a TAFKAL80ETC concert' => Backstage
+  }
+  def self.for(name:, days_remaining:, quality:)
+    (SPECIALIZED_CLASSES[name] || DEFAULT_CLASS)
+      .new(days_remaining, quality)
+  end
+
+  def self.klass_for(name)
+    case name
+    when 'Normal Item'
+      Normal
+    when 'Aged Brie'
+      Brie
+    when 'Sulfuras, Hand of Ragnaros'
+      Item
+    when 'Backstage passes to a TAFKAL80ETC concert'
+      Backstage
     end
   end
 end
